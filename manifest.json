@@ -1,0 +1,17 @@
+{
+    "name": "mypasswd",
+    "manifest_version": 2,
+    "version": "0.1",
+    "description": "The plugin for http://github.com/blaketairan/mypasswd. Only in offline mode",
+
+    "browser_action": {
+        "default_icon": "icon.jpg",
+        "default_popup": "popup.html",
+        "default_title": "Click to login"
+    },
+
+    "permissions": [
+        "nativeMessaging",
+        "clipboardWrite"
+    ]
+}
