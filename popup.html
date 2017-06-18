@@ -1,15 +1,81 @@
-<!doctype html>
+<!Doctype html>
 <html>
   <head>
     <script src='./popup.js'></script>
+    <link rel="stylesheet" href="popup.css" type="text/css">
   </head>
   <body>
-    <button id='connect-button'>Find mypasswd</button>
-    <input id='username' type='text' />
-    <input id='passwd' type='text' />
-    <input id='system' type='text' />
-    <input id='suser' type='text' />
-    <button id='send-message-button'>Send</button>
-    <div id='response'></div>
+    <div style="width: 300px;margin-top: 0px;">
+      <div id="connect-div">
+        <button id='connect-button' >Find mypasswd</button>
+      </div>
+      <div id="login-div">
+        <div>
+          <input class="ipb" id='username' type='text' value='username'/>
+        </div>
+        <div>
+          <input class="ipb" id='passwd' type='text'/>
+        </div>
+        <div>
+          <input type="checkbox" id='saveUsername' value='1'/>
+          <label for="saveUsername">Remember?</label>
+        </div>
+        <div>
+          <button id='login-btn'>Login</button>
+        </div>
+        <div>
+          <button id='toReg-btn'>Register</button>
+        </div>
+      </div>
+      <div id='reg-div'>
+        <div>
+          <input class="ipb" type="text" id='reg-username' value='username'/>
+        </div>
+        <div>
+          <input class="ipb" type="text" id='reg-passwd' value=''/>
+        </div>
+        <div>
+          <button id='reg-btn'>Register</button>
+        </div>
+      </div>
+      <div id="logged-div">
+        <div>
+           <button id='search-mode-btn'>Search-Mode</button>
+        </div>
+        <div>
+           <button id='monitor-mode-btn'>Monitor-Mode</button>
+        </div>
+      </div>
+      <div id="search-div">
+        <div>
+          <input class="ipb" id='system' type='text' title='system'/>
+        </div>
+        <div>
+          <input class="ipb" id='suser' type='text' title='system_account'/>
+        </div>
+        <div>
+          <button id='search-btn'>Search</button>
+        </div>
+      </div>
+      <div id="result-div">
+        <div>
+          <table border="1">result</table>
+        </div>
+        <div>
+          <button id='backToSearch-btn'>Back to search</button>
+        </div>
+      </div>
+      <div id="monitor-div">
+        <div>
+          <p>monitor...</p>
+        </div>
+      </div>
+      <div id='reason-div'></div>
+      <div id="back-div">
+        <div>
+          <button id='backToLogin-btn'>Re-login</button>
+        </div>
+      </div>
+    </div>
   </body>
 </html>

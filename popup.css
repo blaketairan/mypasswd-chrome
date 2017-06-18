@@ -1,0 +1,34 @@
+body{
+    text-align: center;
+    letter-spacing: 0.1em;
+    font-family: sans-serif;
+    /*outline-color: white;*/
+    /*outline-style: ridge;*/
+}
+.login{
+
+}
+
+.inputdiv{
+}
+
+.ipb{
+    margin-left: 10px;
+    margin-top: 10px;
+    border-radius: 5px;
+    border: #a6ffff solid;
+    border-width: 2px;
+}
+
+.btn{
+
+}
+
+#saveUsername{
+    margin-bottom: 2px;
+    vertical-align: middle;
+}
+
+#username{
+    width:130px;
+}
