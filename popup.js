@@ -289,8 +289,6 @@ document.addEventListener('DOMContentLoaded', function () {
   document.getElementById('connect-button').addEventListener(
       'click', connect);
   window.onunload = cleanData();
-  // document.getElementById('send-message-button').addEventListener(
-  //     'click', sendNativeMessage);
   document.getElementById('login-btn').addEventListener('click',login);
   document.getElementById('toReg-btn').addEventListener('click',toRegister);
   document.getElementById('reg-btn').addEventListener('click',register);
