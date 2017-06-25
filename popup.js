@@ -171,10 +171,12 @@ function connect() {
 }
 
 function login(){
-  var temp_account = document.getElementById('username').value;
-  var temp_passwd = document.getElementById('passwd').value;
-  var temp_remember = document.getElementById('saveAccount').checked;
-  chrome.storage.local.set({"account":temp_account, "password":temp_passwd, "save":temp_remember});
+  var tempAccount = document.getElementById('username').value;
+  var tempPasswd = document.getElementById('passwd').value;
+  var tempRemember = document.getElementById('saveAccount').checked;
+  var tempMessage = {"account": tempAccount, "password": tempPasswd, "register": 'False'}
+  chrome.storage.local.set({"account":tempAccount, "password":tempPasswd, "save":tempRemember});
+  sendnativeMessage(tempMessage)
   var execResult = 'success';
   if (execResult == 'success'){
     status = 'logged';
@@ -254,14 +256,22 @@ function appendMessage(text) {
   document.getElementById('reason-div').innerHTML += "<p>" + text + "</p>";
 }
 
-function sendNativeMessage() {
+function sendnativeMessage(message) {
+  port.postMessage(message)
+}
+
+function onNativeMessage(message) {
+  console.log(message)
+}
+
+function sendNativeMessage_() {
   message = {"username": document.getElementById('username').value, "passwd": document.getElementById('passwd').value, "system": document.getElementById('system').value, "suser": document.getElementById('suser').value};
   port.postMessage(message);
   appendMessage("Sent message: <b>" + JSON.stringify(message) + "</b>");
   updateUiState()
 }
 
-function onNativeMessage(message) {
+function onNativeMessage_(message) {
   appendMessage("Received message: <b>" + JSON.stringify(message) + "</b>");
   updateUiState()
 }
