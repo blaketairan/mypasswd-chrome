@@ -40,6 +40,7 @@ function updateUiState() {
       document.getElementById('back-div').style.display = 'none';
     }
     else if (status == 'login-failed'){
+      cleanData()
       document.getElementById('connect-div').style.display = 'none';
       document.getElementById('login-div').style.display = 'block';
       document.getElementById('reg-div').style.display = 'none';
@@ -112,7 +113,7 @@ function updateUiState() {
       document.getElementById('logged-div').style.display = 'none';
       document.getElementById('search-div').style.display = 'none';
       document.getElementById('result-div').style.display = 'block';
-      document.getElementById('monitor-div').style.display = '';
+      document.getElementById('monitor-div').style.display = 'none';
       document.getElementById('reason-div').style.display = 'none';
       document.getElementById('back-div').style.display = 'none';
     }
@@ -161,7 +162,7 @@ function updateUiState() {
 
 function connect() {
   var hostName = "com.blaketairan.mypasswd.host";
-  appendMessage("Connecting to native messaging host <b>" + hostName + "</b>")
+  // appendMessage("Connecting to native messaging host <b>" + hostName + "</b>")
   console.log('finish appendMessage');
   port = chrome.runtime.connectNative(hostName);
   port.onMessage.addListener(onNativeMessage);
@@ -174,14 +175,10 @@ function login(){
   var tempAccount = document.getElementById('username').value;
   var tempPasswd = document.getElementById('passwd').value;
   var tempRemember = document.getElementById('saveAccount').checked;
-  var tempMessage = {"account": tempAccount, "password": tempPasswd, "register": 'False'}
+  var tempAction = 'login';
+  var tempMessage = {"account": tempAccount, "password": tempPasswd, "register": 'False', "action": tempAction}
   chrome.storage.local.set({"account":tempAccount, "password":tempPasswd, "save":tempRemember});
   sendnativeMessage(tempMessage)
-  var execResult = 'success';
-  if (execResult == 'success'){
-    status = 'logged';
-    updateUiState()
-  }
   chrome.storage.local.get("account",function(data){
     console.log(data.account);
   });
@@ -191,21 +188,26 @@ function login(){
 }
 
 function register(){
-  var execResult = 'success';
-  if (execResult == 'success'){
-    status = 'reg-success';
-    updateUiState()
-  }
-
+  var tempAccount = document.getElementById('reg-username').value;
+  var tempPasswd = document.getElementById('reg-passwd').value;
+  var tempAction = 'login';
+  var tempMessage = {"account": tempAccount, "password": tempPasswd, "register": 'True', "action": tempAction}
+  chrome.storage.local.set({"account":tempAccount, "password":tempPasswd, "save": false});
+  sendnativeMessage(tempMessage)
+  chrome.storage.local.get("account",function(data){
+    console.log(data.account);
+  });
+  chrome.storage.local.get("password", function(data){
+    console.log(data.password);
+  });
 }
 
 function search(){
-  var execResult = 'success';
-  if (execResult == 'success'){
-    status = 'specified-search-success';
-    updateUiState()
-  }
-
+  var tempSysName = document.getElementById('sysName').value;
+  var tempSysAccount = document.getElementById('sAccount').value;
+  var tempAction = 'query';
+  var tempMessage = {"sysName": tempSysName, "sAccount": tempSysAccount, "action": tempAction}
+  sendnativeMessage(tempMessage)
 }
 
 function toLogin(){
@@ -253,6 +255,8 @@ function toMonitor(){
 
 function appendMessage(text) {
   console.log("appendMessage");
+  console.log(typeof text)
+  console.log(text)
   document.getElementById('reason-div').innerHTML += "<p>" + text + "</p>";
 }
 
@@ -261,23 +265,27 @@ function sendnativeMessage(message) {
 }
 
 function onNativeMessage(message) {
-  console.log(message)
+  if (message.info){
+    appendMessage(message.info)
+  }
+  status = message.state
+  updateUiState()
 }
 
 function sendNativeMessage_() {
   message = {"username": document.getElementById('username').value, "passwd": document.getElementById('passwd').value, "system": document.getElementById('system').value, "suser": document.getElementById('suser').value};
   port.postMessage(message);
-  appendMessage("Sent message: <b>" + JSON.stringify(message) + "</b>");
+  // appendMessage("Sent message: <b>" + JSON.stringify(message) + "</b>");
   updateUiState()
 }
 
 function onNativeMessage_(message) {
-  appendMessage("Received message: <b>" + JSON.stringify(message) + "</b>");
+  // appendMessage("Received message: <b>" + JSON.stringify(message) + "</b>");
   updateUiState()
 }
 
 function onDisconnected() {
-  appendMessage("Failed to connect: " + chrome.runtime.lastError.message);
+  // appendMessage("Failed to connect: " + chrome.runtime.lastError.message);
   port = null;
   updateUiState();
 }
